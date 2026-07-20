@@ -1,7 +1,7 @@
 {
   "name": "loop-engineering",
   "private": true,
-  "description": "Private monorepo workspace for Loop Engineering tools. Install the published CLI packages under @cobusgreyling/* instead of the repository root package.",
+  "description": "Private monorepo workspace for Loop Engineering tools. Install the published CLI packages under @cobusgreyling/* instead of the repository root package. For this fork, prefer GitHub API-only audit/gate review flows and treat the repository root as documentation-and-metadata coordination rather than a local execution entrypoint.",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -15,6 +15,14 @@
     "tools/*"
   ],
   "type": "module",
+  "keywords": [
+    "loop-engineering",
+    "monorepo",
+    "github-api-only",
+    "audit",
+    "gate",
+    "backend-core-review"
+  ],
   "scripts": {
     "validate:registry": "node scripts/validate-registry.mjs",
     "check:loop-init": "node scripts/check-loop-init-sync.mjs",

@@ -1,7 +1,7 @@
 {
   "name": "@cobusgreyling/loop-gate",
   "version": "1.0.0",
-  "description": "Mechanical enforcement of LOOP.md/docs/safety.md's path denylist and auto-merge allowlist — evaluate a proposed change against static policy and block or allow it.",
+  "description": "Mechanical enforcement of LOOP.md/docs/safety.md policy for GitHub API-only review workflows. Evaluate a proposed change against static policy and block or allow it without widening the local execution surface.",
   "type": "module",
   "main": "dist/gate.js",
   "exports": {
@@ -32,18 +32,20 @@
     "auto-merge",
     "claude-code",
     "grok",
-    "devtools"
+    "devtools",
+    "github-api-only",
+    "backend-core-review"
   ],
   "author": "Cobus Greyling",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cobusgreyling/loop-engineering.git",
+    "url": "git+https://github.com/mitsudolab/loop-engineering.git",
     "directory": "tools/loop-gate"
   },
-  "homepage": "https://cobusgreyling.github.io/loop-engineering/",
+  "homepage": "https://github.com/mitsudolab/loop-engineering/tree/main/tools/loop-gate",
   "bugs": {
-    "url": "https://github.com/cobusgreyling/loop-engineering/issues"
+    "url": "https://github.com/mitsudolab/loop-engineering/issues"
   },
   "publishConfig": {
     "access": "public"

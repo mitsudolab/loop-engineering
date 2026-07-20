@@ -1,7 +1,7 @@
 {
   "name": "@cobusgreyling/loop-audit",
   "version": "1.6.1",
-  "description": "Loop engineering readiness auditor. Compute Loop Readiness Score (L0-L3), detect activity, and get actionable suggestions. npx @cobusgreyling/loop-audit . --suggest",
+  "description": "Loop engineering readiness auditor for GitHub API-only review flows. Compute Loop Readiness Score (L0-L3), detect activity, and get actionable suggestions without requiring local runtime changes to the target repository.",
   "type": "module",
   "bin": {
     "loop-audit": "./dist/cli.js"
@@ -31,7 +31,9 @@
     "grok",
     "opencode",
     "readiness",
-    "audit"
+    "audit",
+    "github-api-only",
+    "backend-core-review"
   ],
   "author": "Cobus Greyling",
   "license": "MIT",
@@ -40,7 +42,7 @@
     "url": "git+https://github.com/mitsudolab/loop-engineering.git",
     "directory": "tools/loop-audit"
   },
-  "homepage": "https://github.com/mitsudolab/loop-engineering",
+  "homepage": "https://github.com/mitsudolab/loop-engineering/tree/main/tools/loop-audit",
   "bugs": {
     "url": "https://github.com/mitsudolab/loop-engineering/issues"
   },
