@@ -1,7 +1,7 @@
 {
   "name": "@cobusgreyling/loop-cost",
   "version": "1.1.0",
-  "description": "Estimate token budgets and daily costs for loop engineering patterns. By cadence, readiness level (L1/L2/L3), and coding agent tool.",
+  "description": "Standalone CLI for estimating token budgets and daily costs for Loop Engineering usage patterns from bundled registry data, without requiring installation of the private monorepo root package.",
   "type": "module",
   "bin": {
     "loop-cost": "dist/cli.js"
@@ -30,21 +30,41 @@
     "claude-code",
     "grok",
     "budget",
-    "devtools"
+    "devtools",
+    "cli-tools",
+    "standalone-cli",
+    "package-boundaries"
   ],
   "author": "Cobus Greyling",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cobusgreyling/loop-engineering.git",
+    "url": "git+https://github.com/mitsudolab/loop-engineering.git",
     "directory": "tools/loop-cost"
   },
-  "homepage": "https://cobusgreyling.github.io/loop-engineering/",
+  "homepage": "https://github.com/mitsudolab/loop-engineering/tree/main/tools/loop-cost",
   "bugs": {
-    "url": "https://github.com/cobusgreyling/loop-engineering/issues"
+    "url": "https://github.com/mitsudolab/loop-engineering/issues"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "provenance": true
+  },
+  "loopEngineering": {
+    "packageBoundary": {
+      "workspace": "tools/loop-cost",
+      "publishedPackage": "@cobusgreyling/loop-cost",
+      "supportedUsage": [
+        "install from npm as a standalone CLI",
+        "run with bundled registry data for local estimation workflows",
+        "consume package-level documentation instead of the private monorepo root"
+      ],
+      "unsupportedUsage": [
+        "installing the repository root package as a runtime dependency",
+        "treating this package as a browser-facing SDK",
+        "assuming write access to repositories or GitHub tokens is required"
+      ]
+    }
   },
   "dependencies": {
     "yaml": "^2.8.0"
