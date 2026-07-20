@@ -1,0 +1,30 @@
+{
+  "package": "@cobusgreyling/loop-context",
+  "mode": "local-or-prefetched-context",
+  "documentation": "../../docs/github-api-tooling-boundaries.md",
+  "usesGitHubDirectlyByDefault": false,
+  "acceptedInputs": [
+    "local-working-tree",
+    "exported-audit-summary",
+    "pre-fetched-repository-metadata"
+  ],
+  "expectedUpstreamProducers": [
+    "@cobusgreyling/loop-audit"
+  ],
+  "configuration": {
+    "requiredEnvironmentVariables": [],
+    "directGitHubAuthentication": "not-required"
+  },
+  "outboundRequests": {
+    "githubAccess": "not-expected-by-default",
+    "networkBehavior": "document-before-introducing"
+  },
+  "forbiddenActions": [
+    "requesting-github-token-directly",
+    "persisting-github-credentials",
+    "expanding-github-scope-requirements-for-context-generation",
+    "pull-request-writes",
+    "issue-or-comment-writes",
+    "workflow-or-settings-mutations"
+  ]
+}

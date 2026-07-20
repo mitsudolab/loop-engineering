@@ -1,0 +1,43 @@
+{
+  "package": "@cobusgreyling/loop-audit",
+  "mode": "github-api-only-read",
+  "documentation": "../../docs/github-api-tooling-boundaries.md",
+  "usesGitHubDirectly": true,
+  "configuration": {
+    "tokenEnvironmentVariable": "GITHUB_TOKEN",
+    "preferredTokenTypes": [
+      "fine-grained-personal-access-token",
+      "github-app-installation-token"
+    ],
+    "classicPatFallbackScopes": {
+      "publicRepositories": "public_repo",
+      "privateRepositories": "repo"
+    },
+    "minimumPermissions": {
+      "metadata": "read",
+      "contents": "read-when-required"
+    }
+  },
+  "acceptedInputs": [
+    "owner/repo",
+    "repository-url-resolved-to-owner-repo"
+  ],
+  "outboundRequests": {
+    "hosts": [
+      "api.github.com"
+    ],
+    "access": "read-only",
+    "dataHandling": [
+      "emit-derived-findings-and-summaries",
+      "avoid-persisting-full-raw-api-payloads-when-derived-findings-are-sufficient"
+    ]
+  },
+  "forbiddenActions": [
+    "git-push",
+    "pull-request-writes",
+    "issue-or-comment-writes",
+    "workflow-or-settings-mutations",
+    "secret-management",
+    "token-persistence"
+  ]
+}
