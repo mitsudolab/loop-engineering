@@ -1,7 +1,7 @@
 {
   "name": "@cobusgreyling/goal-audit",
   "version": "1.0.2",
-  "description": "Goal engineering readiness auditor for Grok Build /goal. Published from the Loop Engineering monorepo, this package consumes local files or pre-fetched audit context produced by the GitHub-API-only loop-audit flow and must not expand the fork's GitHub permission surface.",
+  "description": "Downstream goal readiness auditor for local files or pre-fetched loop-audit output, with no direct GitHub authentication surface.",
   "type": "module",
   "bin": {
     "goal-audit": "./dist/cli.js"
@@ -12,6 +12,7 @@
   ],
   "scripts": {
     "build": "tsc",
+    "check": "npm test",
     "test": "npm run build && node --test test/auditor.test.mjs",
     "prepublishOnly": "npm test",
     "start": "node dist/cli.js"
@@ -39,7 +40,7 @@
     "url": "git+https://github.com/mitsudolab/loop-engineering.git",
     "directory": "tools/goal-audit"
   },
-  "homepage": "https://github.com/mitsudolab/loop-engineering/tree/main/tools/goal-audit",
+  "homepage": "https://github.com/mitsudolab/loop-engineering/tree/main/tools/goal-audit#readme",
   "bugs": {
     "url": "https://github.com/mitsudolab/loop-engineering/issues"
   },
