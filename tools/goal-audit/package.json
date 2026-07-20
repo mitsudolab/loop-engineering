@@ -29,7 +29,8 @@
     "audit",
     "local-first",
     "pre-fetched-context",
-    "github-api-contract"
+    "github-api-contract",
+    "package-boundaries"
   ],
   "author": "Cobus Greyling",
   "license": "MIT",
@@ -43,9 +44,15 @@
     "url": "https://github.com/mitsudolab/loop-engineering/issues"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "provenance": true
   },
   "loopEngineering": {
+    "packageScope": {
+      "role": "downstream-readiness-checker",
+      "publishingModel": "publish-from-tools-directory-only",
+      "workspaceRootIsPublishTarget": false
+    },
     "githubApiBoundary": {
       "usesGitHub": false,
       "requiredEnvironmentVariables": [],

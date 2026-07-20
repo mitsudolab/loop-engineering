@@ -36,7 +36,8 @@
     "repository-metadata",
     "minimal-permissions",
     "github-token",
-    "backend-core-review"
+    "backend-core-review",
+    "package-boundaries"
   ],
   "author": "Cobus Greyling",
   "license": "MIT",
@@ -54,6 +55,11 @@
     "provenance": true
   },
   "loopEngineering": {
+    "packageScope": {
+      "role": "github-api-audit-ingestion",
+      "publishingModel": "publish-from-tools-directory-only",
+      "workspaceRootIsPublishTarget": false
+    },
     "githubApi": {
       "usesGitHub": true,
       "tokenEnvVar": "GITHUB_TOKEN",
@@ -96,32 +102,14 @@
         ],
         "resultHandling": [
           "emit-derived-findings-and-summaries",
-          "avoid-persisting-full-raw-api-payloads-when-derived-findings-are-sufficient"
+          "avoid-persisting-full-raw-api-responses-by-default",
+          "keep-token-ownership-inside-the-audit-step"
         ]
-      },
-      "rateLimitGuidance": {
-        "unauthenticatedRequestsPerHour": 60,
-        "authenticatedRequestsPerHour": 5000,
-        "secondaryRateLimitsPossible": true,
-        "recommendedOperatorBehavior": [
-          "prefer-authenticated-requests-for-repeatable-audits",
-          "batch-conservatively",
-          "retry-with-backoff-when-throttled",
-          "avoid-collecting-full-raw-payloads-when-derived-findings-are-sufficient"
-        ]
-      },
-      "mustNotPersistOrEmit": [
-        "raw-github-token",
-        "authorization-headers",
-        "full-raw-api-payloads-when-derived-findings-are-sufficient",
-        "unnecessary-personal-data"
-      ],
-      "contractDoc": "../../docs/github-api-auth.md",
-      "boundaryDoc": "../../docs/github-audit-api-boundaries.md"
+      }
     }
   },
   "devDependencies": {
-    "@types/node": "^26.0.0",
-    "typescript": "^7.0.2"
+    "@types/node": "^25.9.3",
+    "typescript": "^5.0.0"
   }
 }
