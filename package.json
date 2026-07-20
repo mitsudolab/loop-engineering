@@ -1,7 +1,7 @@
 {
   "name": "loop-engineering",
   "private": true,
-  "description": "Private monorepo workspace for Loop Engineering tools. Install the published CLI packages under @cobusgreyling/* instead of the repository root package. For this fork, prefer a single GitHub API-only repository audit/context path: pass owner/repo with token-backed API access, fetch only repository metadata needed for analysis, and treat the repository root as documentation-and-metadata coordination rather than a local execution entrypoint.",
+  "description": "Private monorepo workspace for Loop Engineering tools. Install the published CLI packages under @cobusgreyling/* instead of the repository root package. For this fork, prefer a single GitHub API-only audit and goal-check coordination path: pass owner/repo with token-backed API access to the audit step, fetch only repository metadata needed for analysis, and keep the repository root focused on documentation, metadata, and contract visibility rather than local execution entrypoints.",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -41,26 +41,46 @@
     "build:tools": "cd tools/loop-audit && npm run build && cd ../loop-init && npm run build && cd ../loop-cost && npm run build && cd ../loop-sync && npm run build && cd ../loop-context && npm run build && cd ../loop-gate && npm run build && cd ../mcp-server && npm run build && cd ../loop-worktree && npm run build",
     "contributors:generate": "node scripts/generate-contributors.mjs",
     "contributors:check": "node scripts/generate-contributors.mjs --check",
-    "docs:github-token-contract": "node --input-type=module -e \"import { readFileSync } from 'node:fs'; process.stdout.write(readFileSync('docs/github-token-contract.md', 'utf8'));\""
+    "docs:github-token-contract": "node --input-type=module -e \"import { readFileSync } from 'node:fs'; process.stdout.write(readFileSync('docs/github-token-contract.md', 'utf8'));\"",
+    "docs:github-audit-boundaries": "node --input-type=module -e \"import { readFileSync } from 'node:fs'; process.stdout.write(readFileSync('docs/github-audit-api-boundaries.md', 'utf8'));\""
   },
   "loopEngineering": {
     "githubApiOnly": {
       "contractDoc": "docs/github-token-contract.md",
+      "boundaryDoc": "docs/github-audit-api-boundaries.md",
       "tokenEnvVar": "GITHUB_TOKEN",
+      "expectedEnvironmentVariables": [
+        "GITHUB_TOKEN"
+      ],
       "tools": [
         "@cobusgreyling/loop-audit",
         "@cobusgreyling/loop-context"
       ],
+      "goalCheckTool": "@cobusgreyling/goal-audit",
       "minimumPermissions": {
         "metadata": "read",
         "contents": "read-when-required"
+      },
+      "classicPatFallbackScopes": {
+        "publicRepositories": "public_repo",
+        "privateRepositories": "repo"
       },
       "mustNotPersistOrEmit": [
         "raw-github-token",
         "authorization-headers",
         "full-raw-api-payloads-when-derived-summaries-are-sufficient",
         "unnecessary-personal-data"
-      ]
+      ],
+      "flowBoundary": {
+        "auditStep": "github-api-read-only",
+        "goalCheckStep": "local-or-prefetched-input-only",
+        "forbiddenWrites": [
+          "pull-request-mutations",
+          "issue-or-comment-writes",
+          "workflow-or-settings-mutations",
+          "secret-management"
+        ]
+      }
     }
   },
   "devDependencies": {

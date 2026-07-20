@@ -1,7 +1,7 @@
 {
   "name": "@cobusgreyling/goal-audit",
   "version": "1.0.2",
-  "description": "Goal engineering readiness auditor for Grok Build /goal. Compute Goal Readiness Score (G0-G3). npx @cobusgreyling/goal-audit . --suggest",
+  "description": "Goal engineering readiness auditor for Grok Build /goal. Compute Goal Readiness Score (G0-G3). This package is part of the audit/goal-check flow but should consume local files or pre-fetched audit context rather than expanding the fork's GitHub API permission surface.",
   "type": "module",
   "bin": {
     "goal-audit": "./dist/cli.js"
@@ -41,6 +41,26 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "loopEngineering": {
+    "githubApiBoundary": {
+      "usesGitHub": false,
+      "requiredEnvironmentVariables": [],
+      "directGitHubAuthentication": "not-required",
+      "acceptedInputs": [
+        "local-working-tree",
+        "pre-fetched-audit-metadata"
+      ],
+      "forbiddenActions": [
+        "requesting-github-token-directly",
+        "persisting-github-credentials",
+        "expanding-github-scope-requirements-for-goal-check"
+      ],
+      "upstreamAuditContract": {
+        "producer": "@cobusgreyling/loop-audit",
+        "boundaryDoc": "../../docs/github-audit-api-boundaries.md"
+      }
+    }
   },
   "devDependencies": {
     "@types/node": "^25.9.3",

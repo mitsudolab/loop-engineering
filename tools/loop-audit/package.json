@@ -57,6 +57,9 @@
     "githubApi": {
       "usesGitHub": true,
       "tokenEnvVar": "GITHUB_TOKEN",
+      "expectedEnvironmentVariables": [
+        "GITHUB_TOKEN"
+      ],
       "preferredTokenTypes": [
         "fine-grained-personal-access-token",
         "github-app-installation-token"
@@ -68,6 +71,33 @@
       "minimumPermissions": {
         "metadata": "read",
         "contents": "read-when-required"
+      },
+      "requiredRepositoryPermissions": {
+        "fineGrainedPersonalAccessToken": {
+          "metadata": "read",
+          "contents": "read-when-required"
+        },
+        "githubAppInstallationToken": {
+          "metadata": "read",
+          "contents": "read-when-required"
+        }
+      },
+      "apiOnlyBoundary": {
+        "acceptedInputs": [
+          "owner/repo",
+          "repository-url-resolved-to-owner-repo"
+        ],
+        "forbiddenActions": [
+          "git-push",
+          "pull-request-writes",
+          "issue-or-comment-writes",
+          "workflow-or-settings-mutations",
+          "secret-management"
+        ],
+        "resultHandling": [
+          "emit-derived-findings-and-summaries",
+          "avoid-persisting-full-raw-api-payloads-when-derived-findings-are-sufficient"
+        ]
       },
       "rateLimitGuidance": {
         "unauthenticatedRequestsPerHour": 60,
@@ -86,7 +116,8 @@
         "full-raw-api-payloads-when-derived-findings-are-sufficient",
         "unnecessary-personal-data"
       ],
-      "contractDoc": "../../docs/github-api-auth.md"
+      "contractDoc": "../../docs/github-api-auth.md",
+      "boundaryDoc": "../../docs/github-audit-api-boundaries.md"
     }
   },
   "devDependencies": {
