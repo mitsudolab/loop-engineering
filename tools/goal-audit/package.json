@@ -1,7 +1,7 @@
 {
   "name": "@cobusgreyling/goal-audit",
   "version": "1.0.2",
-  "description": "Goal engineering readiness auditor for Grok Build /goal. Compute Goal Readiness Score (G0-G3). This package is part of the audit/goal-check flow but should consume local files or pre-fetched audit context rather than expanding the fork's GitHub API permission surface.",
+  "description": "Goal engineering readiness auditor for Grok Build /goal. Published from the Loop Engineering monorepo, this package is intended to consume local files or pre-fetched audit context and should not expand the fork's GitHub API permission surface.",
   "type": "module",
   "bin": {
     "goal-audit": "./dist/cli.js"
@@ -21,23 +21,25 @@
   },
   "keywords": [
     "goal-engineering",
+    "loop-engineering",
     "grok-build",
-    "grok",
     "ai-agents",
     "coding-agents",
     "readiness",
-    "audit"
+    "audit",
+    "local-first",
+    "pre-fetched-context"
   ],
   "author": "Cobus Greyling",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cobusgreyling/goal-engineering.git",
+    "url": "git+https://github.com/mitsudolab/loop-engineering.git",
     "directory": "tools/goal-audit"
   },
-  "homepage": "https://github.com/cobusgreyling/goal-engineering",
+  "homepage": "https://github.com/mitsudolab/loop-engineering/tree/main/tools/goal-audit",
   "bugs": {
-    "url": "https://github.com/cobusgreyling/goal-engineering/issues"
+    "url": "https://github.com/mitsudolab/loop-engineering/issues"
   },
   "publishConfig": {
     "access": "public"
