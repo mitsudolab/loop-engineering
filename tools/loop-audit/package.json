@@ -57,9 +57,28 @@
     "githubApi": {
       "usesGitHub": true,
       "tokenEnvVar": "GITHUB_TOKEN",
+      "preferredTokenTypes": [
+        "fine-grained-personal-access-token",
+        "github-app-installation-token"
+      ],
+      "classicPatFallbackScopes": {
+        "publicRepositories": "public_repo",
+        "privateRepositories": "repo"
+      },
       "minimumPermissions": {
         "metadata": "read",
         "contents": "read-when-required"
+      },
+      "rateLimitGuidance": {
+        "unauthenticatedRequestsPerHour": 60,
+        "authenticatedRequestsPerHour": 5000,
+        "secondaryRateLimitsPossible": true,
+        "recommendedOperatorBehavior": [
+          "prefer-authenticated-requests-for-repeatable-audits",
+          "batch-conservatively",
+          "retry-with-backoff-when-throttled",
+          "avoid-collecting-full-raw-payloads-when-derived-findings-are-sufficient"
+        ]
       },
       "mustNotPersistOrEmit": [
         "raw-github-token",
@@ -67,7 +86,7 @@
         "full-raw-api-payloads-when-derived-findings-are-sufficient",
         "unnecessary-personal-data"
       ],
-      "contractDoc": "../../docs/github-token-contract.md"
+      "contractDoc": "../../docs/github-api-auth.md"
     }
   },
   "devDependencies": {
