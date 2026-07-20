@@ -1,7 +1,7 @@
 {
   "name": "@cobusgreyling/loop-context",
   "version": "1.3.0",
-  "description": "Stateful memory manager for agent loops, positioned in this fork to prefer GitHub API-only repository metadata ingestion for audit/context workflows: accept owner/repo with token-backed API access, summarize only the metadata needed for analysis, and avoid local checkout execution by default.",
+  "description": "Stateful memory manager for agent loops, positioned in this fork to prefer GitHub API-only repository metadata ingestion for audit/context workflows: accept owner/repo with token-backed API access, summarize only the metadata needed for analysis, avoid local checkout execution by default, and follow a minimal-permission GitHub token contract.",
   "type": "module",
   "main": "dist/context-manager.js",
   "exports": {
@@ -34,7 +34,9 @@
     "grok",
     "devtools",
     "github-api-only",
-    "repository-metadata"
+    "repository-metadata",
+    "minimal-permissions",
+    "github-token"
   ],
   "author": "Cobus Greyling",
   "license": "MIT",
@@ -50,6 +52,23 @@
   "publishConfig": {
     "access": "public",
     "provenance": true
+  },
+  "loopEngineering": {
+    "githubApi": {
+      "usesGitHub": true,
+      "tokenEnvVar": "GITHUB_TOKEN",
+      "minimumPermissions": {
+        "metadata": "read",
+        "contents": "read-when-required"
+      },
+      "mustNotPersistOrEmit": [
+        "raw-github-token",
+        "authorization-headers",
+        "full-raw-api-payloads-when-derived-context-is-sufficient",
+        "unnecessary-personal-data"
+      ],
+      "contractDoc": "../../docs/github-token-contract.md"
+    }
   },
   "dependencies": {
     "@cobusgreyling/loop-cost": "^1.1.0"

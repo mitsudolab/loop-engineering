@@ -1,7 +1,7 @@
 {
   "name": "@cobusgreyling/loop-audit",
   "version": "1.6.1",
-  "description": "Loop engineering readiness auditor for a single GitHub API-only ingestion mode: accept owner/repo with token-backed API access, fetch only repository metadata needed for readiness analysis, and avoid requiring local runtime changes to the target repository.",
+  "description": "Loop engineering readiness auditor for a single GitHub API-only ingestion mode: accept owner/repo with token-backed API access, fetch only repository metadata needed for readiness analysis, avoid requiring local runtime changes to the target repository, and operate with a minimal-permission GitHub token contract.",
   "type": "module",
   "bin": {
     "loop-audit": "./dist/cli.js"
@@ -34,6 +34,8 @@
     "audit",
     "github-api-only",
     "repository-metadata",
+    "minimal-permissions",
+    "github-token",
     "backend-core-review"
   ],
   "author": "Cobus Greyling",
@@ -50,6 +52,23 @@
   "publishConfig": {
     "access": "public",
     "provenance": true
+  },
+  "loopEngineering": {
+    "githubApi": {
+      "usesGitHub": true,
+      "tokenEnvVar": "GITHUB_TOKEN",
+      "minimumPermissions": {
+        "metadata": "read",
+        "contents": "read-when-required"
+      },
+      "mustNotPersistOrEmit": [
+        "raw-github-token",
+        "authorization-headers",
+        "full-raw-api-payloads-when-derived-findings-are-sufficient",
+        "unnecessary-personal-data"
+      ],
+      "contractDoc": "../../docs/github-token-contract.md"
+    }
   },
   "devDependencies": {
     "@types/node": "^26.0.0",

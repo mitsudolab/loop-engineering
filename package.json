@@ -20,6 +20,8 @@
     "monorepo",
     "github-api-only",
     "repository-metadata",
+    "minimal-permissions",
+    "github-token",
     "audit",
     "gate",
     "backend-core-review"
@@ -38,7 +40,28 @@
     "test:tools": "npm run test:loop-audit && npm run test:loop-init && npm run test:loop-cost && npm run test:loop-sync && npm run test:loop-context && npm run test:loop-gate && npm run test:mcp-server && npm run test:loop-worktree",
     "build:tools": "cd tools/loop-audit && npm run build && cd ../loop-init && npm run build && cd ../loop-cost && npm run build && cd ../loop-sync && npm run build && cd ../loop-context && npm run build && cd ../loop-gate && npm run build && cd ../mcp-server && npm run build && cd ../loop-worktree && npm run build",
     "contributors:generate": "node scripts/generate-contributors.mjs",
-    "contributors:check": "node scripts/generate-contributors.mjs --check"
+    "contributors:check": "node scripts/generate-contributors.mjs --check",
+    "docs:github-token-contract": "node --input-type=module -e \"import { readFileSync } from 'node:fs'; process.stdout.write(readFileSync('docs/github-token-contract.md', 'utf8'));\""
+  },
+  "loopEngineering": {
+    "githubApiOnly": {
+      "contractDoc": "docs/github-token-contract.md",
+      "tokenEnvVar": "GITHUB_TOKEN",
+      "tools": [
+        "@cobusgreyling/loop-audit",
+        "@cobusgreyling/loop-context"
+      ],
+      "minimumPermissions": {
+        "metadata": "read",
+        "contents": "read-when-required"
+      },
+      "mustNotPersistOrEmit": [
+        "raw-github-token",
+        "authorization-headers",
+        "full-raw-api-payloads-when-derived-summaries-are-sufficient",
+        "unnecessary-personal-data"
+      ]
+    }
   },
   "devDependencies": {
     "ajv": "^8.17.1",
