@@ -1,56 +1,82 @@
-# GitHub Audit API Boundaries
+# GitHub API-only audit boundaries
 
-This fork keeps the audit and goal-check flow constrained to a documented GitHub API-only contract.
+This fork supports a single repository-audit path for contributors who only have GitHub API access.
 
-## Tools in scope
+## Supported audit workflow
 
-- `@cobusgreyling/loop-audit`: the only audit package in this fork that is expected to authenticate to the GitHub API.
-- `@cobusgreyling/goal-audit`: consumes a local working tree or pre-fetched audit outputs and must not require direct GitHub authentication.
+1. Provide the target repository as `owner/repo` to `@cobusgreyling/loop-audit`.
+2. Provide a GitHub token explicitly through the environment variable `GITHUB_TOKEN`.
+3. Fetch only the repository metadata and contents that are required for readiness and boundary review.
+4. Pass the resulting audit context to follow-on tools such as `@cobusgreyling/goal-audit`.
 
-## Required environment variables
+This keeps repository analysis inside an API-backed contract and avoids depending on local execution inside the target repository.
+
+## Token contract
+
+- Required environment variable: `GITHUB_TOKEN`
+- Preferred token types:
+  - fine-grained personal access token
+  - GitHub App installation token
+- Minimum permissions:
+  - repository metadata: read
+  - repository contents: read only when the audit step needs file-level inspection
+
+If a classic personal access token must be used, keep the scope as small as possible:
+
+- public repositories: `public_repo`
+- private repositories: `repo`
+
+Do not persist tokens in files, generated artifacts, prompts, or package metadata.
+
+## Tool boundaries in this fork
 
 ### `@cobusgreyling/loop-audit`
 
-- Required: `GITHUB_TOKEN`
-- Expected token types:
-  - fine-grained personal access token
-  - GitHub App installation token
-- Classic PAT fallback scopes:
-  - public repositories: `public_repo`
-  - private repositories: `repo`
+`@cobusgreyling/loop-audit` is the only package in this fork that should directly depend on GitHub API authentication for repository auditing.
+
+It may:
+
+- accept `owner/repo` identifiers
+- read `GITHUB_TOKEN` from the environment
+- call GitHub APIs needed for repository readiness review
+- emit structured audit context for downstream analysis
+
+It must not:
+
+- require contributors to run code inside the target repository
+- store GitHub credentials locally
+- broaden token permissions beyond the documented audit need
 
 ### `@cobusgreyling/goal-audit`
 
-- Required: none
-- Boundary: do not prompt for, store, or emit GitHub credentials directly.
+`@cobusgreyling/goal-audit` is downstream-only.
 
-## Minimum repository permissions
+It may:
 
-For fine-grained PATs and GitHub App installation tokens, prefer the smallest repository permissions that let the audit complete:
+- consume a local working tree
+- consume pre-fetched audit metadata
+- reuse audit context produced by `@cobusgreyling/loop-audit`
 
-- `metadata`: `read`
-- `contents`: `read` only when repository content inspection is required for findings
+It must not:
 
-## API-only boundary
+- request `GITHUB_TOKEN` directly
+- add new GitHub authentication requirements
+- expand the fork's permission surface for goal checks
 
-The audit flow in this fork is intentionally read-oriented.
+## Contributor guidance for forks
 
-Allowed:
-- accept `owner/repo` style input for GitHub-backed audits
-- fetch repository metadata needed to compute readiness findings
-- derive summaries instead of persisting full raw API payloads when summaries are sufficient
+When using this fork safely:
 
-Not allowed by contract:
-- pushing commits or tags
-- creating or updating pull requests, issues, comments, or reviews
-- modifying workflows, checks, or repository settings
-- storing raw GitHub tokens or authorization headers
-- collecting unnecessary personal data
+- set `GITHUB_TOKEN` only for the audit step that needs GitHub API access
+- prefer ephemeral or installation-scoped credentials over long-lived broad tokens
+- keep downstream tools environment-agnostic unless they are the documented GitHub API entrypoint
+- treat audit outputs as derived context, not as a place to store secrets
 
-## Goal-check handoff
+## Non-goals for this contract
 
-When `@cobusgreyling/goal-audit` is used in the same operator flow:
+This document does not authorize:
 
-- `@cobusgreyling/loop-audit` may provide repository-derived context
-- `@cobusgreyling/goal-audit` should work from local files or pre-fetched metadata
-- the goal-check step should not expand the GitHub permission surface beyond the audit contract above
+- local execution hooks inside third-party repositories
+- automatic credential discovery from developer machines
+- hidden fallback authentication paths
+- expansion of runtime engine behavior beyond repository analysis metadata collection

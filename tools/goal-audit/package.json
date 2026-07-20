@@ -1,7 +1,7 @@
 {
   "name": "@cobusgreyling/goal-audit",
   "version": "1.0.2",
-  "description": "Goal engineering readiness auditor for Grok Build /goal. Published from the Loop Engineering monorepo, this package is intended to consume local files or pre-fetched audit context and should not expand the fork's GitHub API permission surface.",
+  "description": "Goal engineering readiness auditor for Grok Build /goal. Published from the Loop Engineering monorepo, this package consumes local files or pre-fetched audit context produced by the GitHub-API-only loop-audit flow and must not expand the fork's GitHub permission surface.",
   "type": "module",
   "bin": {
     "goal-audit": "./dist/cli.js"
@@ -28,7 +28,8 @@
     "readiness",
     "audit",
     "local-first",
-    "pre-fetched-context"
+    "pre-fetched-context",
+    "github-api-contract"
   ],
   "author": "Cobus Greyling",
   "license": "MIT",
@@ -60,6 +61,10 @@
       ],
       "upstreamAuditContract": {
         "producer": "@cobusgreyling/loop-audit",
+        "requiredEnvironmentVariables": [
+          "GITHUB_TOKEN"
+        ],
+        "authenticationOwner": "upstream-audit-step-only",
         "boundaryDoc": "../../docs/github-audit-api-boundaries.md"
       }
     }
