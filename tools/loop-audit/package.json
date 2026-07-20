@@ -37,15 +37,16 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cobusgreyling/loop-engineering.git",
+    "url": "git+https://github.com/mitsudolab/loop-engineering.git",
     "directory": "tools/loop-audit"
   },
-  "homepage": "https://cobusgreyling.github.io/loop-engineering/",
+  "homepage": "https://github.com/mitsudolab/loop-engineering",
   "bugs": {
-    "url": "https://github.com/cobusgreyling/loop-engineering/issues"
+    "url": "https://github.com/mitsudolab/loop-engineering/issues"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "provenance": true
   },
   "devDependencies": {
     "@types/node": "^26.0.0",

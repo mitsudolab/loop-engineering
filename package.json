@@ -2,6 +2,15 @@
   "name": "loop-engineering",
   "private": true,
   "description": "Private monorepo workspace for Loop Engineering tools. Install the published CLI packages under @cobusgreyling/* instead of the repository root package.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mitsudolab/loop-engineering.git"
+  },
+  "homepage": "https://github.com/mitsudolab/loop-engineering",
+  "bugs": {
+    "url": "https://github.com/mitsudolab/loop-engineering/issues"
+  },
   "workspaces": [
     "tools/*"
   ],
